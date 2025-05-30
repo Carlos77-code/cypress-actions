@@ -13,6 +13,8 @@ jobs:
     container:
       image: cypress/browsers:node-22.16.0-chrome-136.0.7103.113-1-ff-138.0.4-edge-136.0.3240.76-1
       options: --user 1001
+    strategy:
+      fail-fast: false
     steps:
       - name: Get code
         uses: actions/checkout@v4.2.2
@@ -32,7 +34,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CYPRESS_CI_BUILD_ID: ${{ github.run_id }}-${{ github.run_attempt }}
   cypress-e2e-chrome:
-    # needs: cypress-e2e-electron
+    needs: cypress-e2e-electron
     runs-on: ubuntu-latest
     container:
       image: cypress/browsers:node-22.16.0-chrome-136.0.7103.113-1-ff-138.0.4-edge-136.0.3240.76-1
@@ -56,7 +58,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CYPRESS_CI_BUILD_ID: ${{ github.run_id }}-${{ github.run_attempt }}
   cypress-e2e-firefox:
-    # needs: cypress-e2e-electron
+    needs: cypress-e2e-electron
     runs-on: ubuntu-latest
     container:
       image: cypress/browsers:node-22.16.0-chrome-136.0.7103.113-1-ff-138.0.4-edge-136.0.3240.76-1
