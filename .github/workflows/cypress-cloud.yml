@@ -13,8 +13,6 @@ jobs:
     container:
       image: cypress/browsers:node-22.16.0-chrome-136.0.7103.113-1-ff-138.0.4-edge-136.0.3240.76-1
       options: --user 1001
-    strategy:
-      fail-fast: false
     steps:
       - name: Get code
         uses: actions/checkout@v4.2.2
@@ -32,7 +30,6 @@ jobs:
         env:
           CYPRESS_RECORD_KEY: 0e66ca28-3fe2-4a59-91b9-eb821a467b4f
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          CYPRESS_CI_BUILD_ID: ${{ github.run_id }}-${{ github.run_attempt }}
   cypress-e2e-chrome:
     needs: cypress-e2e-electron
     runs-on: ubuntu-latest
@@ -49,14 +46,11 @@ jobs:
           install-command: yarn install
           browser: chrome
           record: true
-          parallel: true
           group: UI Chrome
-          ci-build-id: ${{ github.run_id }}
           spec: ${{ github.event.inputs.spec }}
         env:
           CYPRESS_RECORD_KEY: 0e66ca28-3fe2-4a59-91b9-eb821a467b4f
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          CYPRESS_CI_BUILD_ID: ${{ github.run_id }}-${{ github.run_attempt }}
   cypress-e2e-firefox:
     needs: cypress-e2e-electron
     runs-on: ubuntu-latest
@@ -73,11 +67,8 @@ jobs:
           install-command: yarn install
           browser: firefox
           record: true
-          parallel: true
           group: UI Firefox
-          ci-build-id: ${{ github.run_id }}
           spec: ${{ github.event.inputs.spec }}
         env:
           CYPRESS_RECORD_KEY: 0e66ca28-3fe2-4a59-91b9-eb821a467b4f
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          CYPRESS_CI_BUILD_ID: ${{ github.run_id }}-${{ github.run_attempt }}
